@@ -7,18 +7,12 @@
       <v-card v-for="n in 3" :key="n" class="ma-3 pa-6" max-width="400" outlined>
         <v-list-item three-line>
           <v-list-item-content>
-            <div class="overline mb-4">OVERLINE</div>
             <v-list-item-title class="headline mb-1">Headline 5</v-list-item-title>
             <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
           </v-list-item-content>
 
-          <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+          <v-list-item-avatar tile width="160" height="90" color="grey"></v-list-item-avatar>
         </v-list-item>
-
-        <v-card-actions>
-          <v-btn text>Button</v-btn>
-          <v-btn text>Button</v-btn>
-        </v-card-actions>
       </v-card>
     </v-row>
     <v-row class="grey lighten-3 mb-8">
@@ -31,13 +25,8 @@
               <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
             </v-list-item-content>
 
-            <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+            <v-list-item-avatar tile width="240" height="135" color="grey"></v-list-item-avatar>
           </v-list-item>
-
-          <v-card-actions>
-            <v-btn text>Button</v-btn>
-            <v-btn text>Button</v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -53,181 +42,65 @@
             </v-btn>
           </v-card-title>
 
-          <v-virtual-scroll :items="items" :item-height="50" height="500">
-            <template v-slot="{ item }">
-              <v-list-item>
-                <v-list-item-avatar>
-                  <v-avatar :color="item.color" size="80" class="white--text">{{ item.initials }}</v-avatar>
-                </v-list-item-avatar>
+          <v-list three-line>
+            <template v-for="(item, index) in items">
+              <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
 
+              <v-list-item :key="item.title" @click>
                 <v-list-item-content>
-                  <v-list-item-title>{{ item.fullName }}</v-list-item-title>
+                  <v-list-item-title v-html="item.title"></v-list-item-title>
+                  <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
                 </v-list-item-content>
 
-                <v-list-item-action>
-                  <v-btn depressed small>
-                    View User
-                    <v-icon color="orange darken-4" right>mdi-open-in-new</v-icon>
-                  </v-btn>
-                </v-list-item-action>
+                <v-list-item-avatar tile width="160" height="90">
+                  <v-img :src="item.avatar"></v-img>
+                </v-list-item-avatar>
               </v-list-item>
             </template>
-          </v-virtual-scroll>
+          </v-list>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
-Column
 
 
 <script>
 export default {
   data: () => ({
-    colors: [
-      "#2196F3",
-      "#90CAF9",
-      "#64B5F6",
-      "#42A5F5",
-      "#1E88E5",
-      "#1976D2",
-      "#1565C0",
-      "#0D47A1",
-      "#82B1FF",
-      "#448AFF",
-      "#2979FF",
-      "#2962FF",
-    ],
-    names: [
-      "Oliver",
-      "Jake",
-      "Noah",
-      "James",
-      "Jack",
-      "Connor",
-      "Liam",
-      "John",
-      "Harry",
-      "Callum",
-      "Mason",
-      "Robert",
-      "Jacob",
-      "Jacob",
-      "Jacob",
-      "Michael",
-      "Charlie",
-      "Kyle",
-      "William",
-      "William",
-      "Thomas",
-      "Joe",
-      "Ethan",
-      "David",
-      "George",
-      "Reece",
-      "Michael",
-      "Richard",
-      "Oscar",
-      "Rhys",
-      "Alexander",
-      "Joseph",
-      "James",
-      "Charlie",
-      "James",
-      "Charles",
-      "William",
-      "Damian",
-      "Daniel",
-      "Thomas",
-      "Amelia",
-      "Margaret",
-      "Emma",
-      "Mary",
-      "Olivia",
-      "Samantha",
-      "Olivia",
-      "Patricia",
-      "Isla",
-      "Bethany",
-    ],
-    surnames: [
-      "Smith",
-      "Anderson",
-      "Clark",
-      "Wright",
-      "Mitchell",
-      "Johnson",
-      "Thomas",
-      "Rodriguez",
-      "Lopez",
-      "Perez",
-      "Williams",
-      "Jackson",
-      "Lewis",
-      "Hill",
-      "Roberts",
-      "Jones",
-      "White",
-      "Lee",
-      "Scott",
-      "Turner",
-      "Brown",
-      "Harris",
-      "Walker",
-      "Green",
-      "Phillips",
-      "Davis",
-      "Martin",
-      "Hall",
-      "Adams",
-      "Campbell",
-      "Miller",
-      "Thompson",
-      "Allen",
-      "Baker",
-      "Parker",
-      "Wilson",
-      "Garcia",
-      "Young",
-      "Gonzalez",
-      "Evans",
-      "Moore",
-      "Martinez",
-      "Hernandez",
-      "Nelson",
-      "Edwards",
-      "Taylor",
-      "Robinson",
-      "King",
-      "Carter",
-      "Collins",
+    items: [
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+        title: "Brunch this weekend?",
+        subtitle:
+          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
+        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
+        subtitle:
+          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
+        title: "Oui oui",
+        subtitle:
+          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
+        title: "Birthday gift",
+        subtitle:
+          "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+        title: "Recipe to try",
+        subtitle:
+          "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
+      },
     ],
   }),
-
-  computed: {
-    items() {
-      const namesLength = this.names.length;
-      const surnamesLength = this.surnames.length;
-      const colorsLength = this.colors.length;
-
-      return Array.from({ length: 10000 }, (k, v) => {
-        const name = this.names[this.genRandomIndex(namesLength)];
-        const surname = this.surnames[this.genRandomIndex(surnamesLength)];
-
-        return {
-          color: this.colors[this.genRandomIndex(colorsLength)],
-          fullName: `${name} ${surname}`,
-          initials: `${name[0]} ${surname[0]}`,
-        };
-      });
-    },
-  },
-
-  methods: {
-    genRandomIndex(length) {
-      return Math.ceil(Math.random() * (length - 1));
-    },
-  },
 };
 </script>
 <style>
