@@ -1,4 +1,8 @@
 import Vuex from 'vuex'
+import axios from 'axios'
+
+const API_KEY = "AIzaSyApmlOS_tiSrg7qiUbGX2nnDLgKXGOIHAU"
+const BASE_URL = "https://youtube.googleapis.com/youtube/v3/commentThreads"
 
 const createStore = () => {
   return new Vuex.Store({
@@ -36,6 +40,57 @@ const createStore = () => {
         }
       ],
     }),
+    mutations: {
+      setComments(state, payload) {
+        state.userComments = payload;
+      },
+    },
+    actions: {
+      search({ commit }, payload) {
+        const comments = [];
+        let pageToken = "";
+        let apiURL = `${BASE_URL}?part=snippet&videoId=${payload}&key=${API_KEY}&pageToken=${pageToken}`;
+        console.log(apiURL);
+        axios.get(apiURL)
+        .then(response => {
+          console.log(response.data);
+          pageToken = response.data.nextPageToken;
+          const items = response.data.items;
+          items.forEach(item => {
+            comments.push({
+              id: item.snippet.topLevelComment.id,
+              text: item.snippet.topLevelComment.snippet.textDisplay,
+              username: item.snippet.topLevelComment.snippet.authorDisplayName,
+              avatar: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
+              likeCount: item.snippet.topLevelComment.snippet.likeCount,
+            })
+          });
+          
+        })
+        .then(() => {
+          apiURL = apiURL + pageToken;
+          axios.get(apiURL)
+          .then(response => {
+            console.log(response.data);
+            pageToken = response.data.nextPageToken;
+            const items = response.data.items;
+            items.forEach(item => {
+              comments.push({
+                id: item.snippet.topLevelComment.id,
+                text: item.snippet.topLevelComment.snippet.textDisplay,
+                username: item.snippet.topLevelComment.snippet.authorDisplayName,
+                avatar: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
+                likeCount: item.snippet.topLevelComment.snippet.likeCount,
+              })
+            });
+            
+          })
+          
+        })
+
+        commit("setComments", comments);
+      },
+    },
     getters: {
       userComments(state){
         return state.userComments;

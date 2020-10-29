@@ -5,7 +5,7 @@
     </v-row>
     <v-row class="grey lighten-1 py-8 px-4">
       <v-col cols="12">
-        <v-text-field
+      <v-text-field
         flat
         hide-details
         append-icon="mdi-magnify"
@@ -13,6 +13,8 @@
         outlined
         dense
         v-model="searchText"
+        @click:append="search"
+        class="hidden-sm-and-down"
       ></v-text-field>
         <v-card class="mx-auto mt-4">
           <v-card-title class="white--text grey darken-1">
@@ -47,8 +49,9 @@
               </v-list-item-avatar>
 
               <v-list-item-content>
-                <v-list-item-title v-html="item.title"></v-list-item-title>
-                <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                <v-list-item-subtitle v-html="item.username"></v-list-item-subtitle>
+                <v-list-item-title v-html="item.text"></v-list-item-title>
+                <v-list-item-subtitle>Likes: {{ item.likeCount }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -67,6 +70,12 @@ export default {
   computed: {
     comments() {
       return this.$store.getters.userComments;
+    }
+  },
+  methods: {
+    search() {
+      const videoID = this.searchText.split("=")[1]
+      return this.$store.dispatch("search", videoID);
     }
   },
 };
